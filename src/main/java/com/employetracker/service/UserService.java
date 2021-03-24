@@ -1,8 +1,9 @@
 package com.employetracker.service;
 
-import com.employetracker.commonEntity.Response;
+
 import com.employetracker.modal.UpdatePassword;
 import com.employetracker.modal.User;
+import com.employetracker.modal.UserB;
 
 /**
  * @author : Vishal Srivastava
@@ -11,8 +12,8 @@ import com.employetracker.modal.User;
 
 public interface UserService {
 
-    Response signUp(User user);
-    Response loginWithEmail(String email);
-    Response loginWithMobNumber(Double mobNumber);
-    Response updatePassword(UpdatePassword pass);
+    UserB signUp(User user);
+    UserB loginWithEmail(String email);
+    UserB loginWithMobNumber(Double mobNumber);
+    void updatePassword(UpdatePassword pass);
 }

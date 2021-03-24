@@ -1,6 +1,5 @@
 package com.employetracker.repository;
 
-import com.employetracker.modal.Employee;
 import com.employetracker.modal.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,6 +15,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByUserId(int userId);
 
     User findByEmail(String email);
+
+    User findByResetToken(String token);
+
+    User findByMobNumber(Double number);
 
 
 }
