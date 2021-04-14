@@ -1,0 +1,23 @@
+version: '3'
+services:
+  mysql-db:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_USER=vishal
+      - MYSQL_PASSWORD=test
+      - MYSQL_DATABASE=tracker
+
+  my-ems-app:
+    image: my-ems-app
+    ports:
+      - 8081:9090
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/tracker
+      SPRING_DATASOURCE_USERNAME: "vishal"
+      SPRING_DATASOURCE_PASSWORD: "test"
+    build:
+      context: "./"
+      dockerfile: "Dockerfile"
+    depends_on:
+      - mysql-db

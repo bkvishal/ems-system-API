@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author : Vishal Srivastava
@@ -22,6 +24,30 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+
+
+    @GetMapping(value = "/getrandom")
+    public List<String> lambdaTest() {
+
+        User max = new User("Max");
+        User fox = new User("fox");
+        User megan = new User("megan");
+        User rider = new User("rider");
+
+        List<User> userList = new ArrayList<>();
+        userList.add(max);
+        userList.add(fox);
+        userList.add(megan);
+        userList.add(rider);
+
+        List<String> names = new ArrayList<>();
+
+        userList.forEach(user -> names.add(user.getUserName()));
+        names.forEach(System.out::println);
+        return names;
+
+    }
 
 
     @PostMapping(value = "/signUp")

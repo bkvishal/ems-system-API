@@ -25,4 +25,9 @@ public class User {
     private String password;
     private Double mobNumber;
     private String resetToken;
+
+
+    public User(String userName) {
+        this.userName = userName;
+    }
 }
