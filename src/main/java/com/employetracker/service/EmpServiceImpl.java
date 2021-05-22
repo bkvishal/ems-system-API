@@ -3,25 +3,33 @@ package com.employetracker.service;
 import com.employetracker.Expection.DefinedExpection;
 import com.employetracker.modal.Employee;
 import com.employetracker.repository.EmpRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 
 /**
  * @author : Vishal Srivastava
  * @Date : 22-08-2020
  **/
 
+@Slf4j
 @Service
 public class EmpServiceImpl implements EmpService {
 
-    @Autowired
-    private EmpRepository empRepo;
+    //constructor based field injection
+    private final EmpRepository empRepo;
+
+    public EmpServiceImpl(EmpRepository empRepo) {
+        this.empRepo = empRepo;
+    }
 
     @Override
     public List<Employee> allEmployees() {
+        log.info("Trying to get all emp list");
         return empRepo.findAll();
     }
 
@@ -34,12 +42,23 @@ public class EmpServiceImpl implements EmpService {
         emp.setCountry(employee.getCountry());
         emp.setNumber(employee.getNumber());
 
+        log.info("adding emp is done right here in addEmp service method");
+
         return empRepo.save(emp);
+
+
     }
 
     @Override
     public Employee getBySapId(int id) {
-        return empRepo.findBySapId(id);
+         Employee emp = empRepo.findBySapId(id);
+         if (emp!=null) {
+             log.info("Getting the emp with id " + id);
+             return emp;
+         }
+         log.error("Unable to get emp with id" +  id);
+
+         return emp;
     }
 
     @Override
@@ -51,6 +70,7 @@ public class EmpServiceImpl implements EmpService {
             findEmp.setAddress(employee.getAddress().isEmpty() ? findEmp.getAddress() : employee.getAddress());
             findEmp.setCountry(employee.getCountry().isEmpty() ? findEmp.getCountry() : employee.getCountry());
             findEmp.setNumber(employee.getNumber() == 0 ? findEmp.getNumber() : employee.getNumber());
+            log.info("Updated correctly");
             empRepo.save(findEmp);
         }
         return findEmp;
@@ -62,8 +82,10 @@ public class EmpServiceImpl implements EmpService {
 
         if (emp != null) {
             empRepo.delete(emp);
+            log.info("Succesfully deleted" +  sapId);
             return "Success";
         }
+        log.error("Unable to delete emp with id" + sapId);
         return "Fails";
     }
 }
