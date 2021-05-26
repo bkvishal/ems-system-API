@@ -110,4 +110,22 @@ public class EmpController {
         }
     }
 
+    @GetMapping(value = "/getByDesign/{designation}")
+    public ResponseEntity<Response> getByDesignation(@PathVariable("designation") String designation) {
+        List<Employee> result = empService.getByDesignation(designation);
+        Response rs = new Response();
+
+        if (!result.isEmpty()) {
+            rs.setHttpCode("200");
+            rs.setStatus(true);
+            rs.setResult(result);
+            return new ResponseEntity<>(rs, HttpStatus.OK);
+        } else {
+            rs.setStatus(false);
+            rs.setError("Something went wrong! Employee with chosen designation not fetched");
+            rs.setHttpCode("404");
+            return new ResponseEntity<>(rs, HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

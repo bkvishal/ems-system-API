@@ -35,30 +35,23 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public Employee addEmp(Employee employee) {
-        Employee emp = new Employee();
-        emp.setSapId(employee.getSapId());
-        emp.setEmpName(employee.getEmpName());
-        emp.setAddress(employee.getAddress());
-        emp.setCountry(employee.getCountry());
-        emp.setNumber(employee.getNumber());
+
+        Employee emp = empRepo.save(employee);
 
         log.info("adding emp is done right here in addEmp service method");
 
         return empRepo.save(emp);
-
-
     }
 
     @Override
     public Employee getBySapId(int id) {
-         Employee emp = empRepo.findBySapId(id);
-         if (emp!=null) {
-             log.info("Getting the emp with id " + id);
-             return emp;
-         }
-         log.error("Unable to get emp with id" +  id);
-
-         return emp;
+        Employee emp = empRepo.findBySapId(id);
+        if (emp != null) {
+            log.info("Getting the emp with id " + id);
+            return emp;
+        }
+        log.error("Unable to get emp with id" + id);
+        return new Employee();
     }
 
     @Override
@@ -69,6 +62,7 @@ public class EmpServiceImpl implements EmpService {
             findEmp.setEmpName(employee.getEmpName().isEmpty() ? findEmp.getEmpName() : employee.getEmpName());
             findEmp.setAddress(employee.getAddress().isEmpty() ? findEmp.getAddress() : employee.getAddress());
             findEmp.setCountry(employee.getCountry().isEmpty() ? findEmp.getCountry() : employee.getCountry());
+            findEmp.setDesignation(employee.getDesignation().isEmpty() ? findEmp.getDesignation() : employee.getDesignation());
             findEmp.setNumber(employee.getNumber() == 0 ? findEmp.getNumber() : employee.getNumber());
             log.info("Updated correctly");
             empRepo.save(findEmp);
@@ -82,10 +76,15 @@ public class EmpServiceImpl implements EmpService {
 
         if (emp != null) {
             empRepo.delete(emp);
-            log.info("Succesfully deleted" +  sapId);
+            log.info("Successfully deleted" + sapId);
             return "Success";
         }
         log.error("Unable to delete emp with id" + sapId);
         return "Fails";
+    }
+
+    @Override
+    public List<Employee> getByDesignation(String designation) {
+        return empRepo.findByDesignation(designation);
     }
 }

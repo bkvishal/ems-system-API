@@ -23,6 +23,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int sapId;
     private String empName;
+    private String designation;
     private String Address;
     private long number;
     private String country;

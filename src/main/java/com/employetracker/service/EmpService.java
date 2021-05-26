@@ -19,5 +19,6 @@ public interface EmpService {
    Employee updateEmp(Employee employee);
    String deleteEmp(int sapId);
 
+   List<Employee> getByDesignation(String designation);
 
 }
