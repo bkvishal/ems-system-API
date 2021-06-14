@@ -15,8 +15,8 @@ spring:
     active: default
 
 
-logging:
-  level:
-    com.employetracker: trace
-  file:
-    path: E:/logging ems
+#logging:
+#  level:
+#    com.employetracker: trace
+#  file:
+#    path: E:/logging ems

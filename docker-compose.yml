@@ -3,21 +3,30 @@ version: '3'
 services:
   mysql-springboot:
     image: mysql:latest
+    restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=tracker
       - MYSQL_USER=vishal
       - MYSQL_PASSWORD=test
-  emsspringmaster:
-    image: emsspringmaster
+      # port mapping is optional
     ports:
-      - "8080:8080"
+      - 3306:3306
+  emsspringmaster:
+    # port mapping is optional in this too
+    ports:
+      - 8080:8080
+    # for restarting on failure
+    restart: on-failure
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-springboot:3306/tracker?autoReconnect=true&useSSL=false
-      SPRING_DATASOURCE_USERNAME: "vishal"
-      SPRING_DATASOURCE_PASSWORD: "test"
+      #jdbc:mysql://mysql-springboot:3306/tracker?useSSL=false&allowPublicKeyRetrieval=true --- you can use this too
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-springboot:3306/tracker
+      SPRING_DATASOURCE_USERNAME: vishal
+      SPRING_DATASOURCE_PASSWORD: test
     build:
       context: "./"
       dockerfile: "Dockerfile"
+      # because for using backend -- mysql is must
     depends_on:
       - mysql-springboot
+
