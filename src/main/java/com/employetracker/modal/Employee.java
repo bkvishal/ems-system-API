@@ -1,5 +1,6 @@
 package com.employetracker.modal;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
@@ -27,4 +28,5 @@ public class Employee {
     private String Address;
     private long number;
     private String country;
+    private String imageUri;
 }
