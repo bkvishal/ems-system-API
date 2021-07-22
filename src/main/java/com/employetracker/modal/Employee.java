@@ -1,8 +1,6 @@
 package com.employetracker.modal;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +15,8 @@ import javax.persistence.Id;
 @Entity
 @Data
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employee {
 
 
