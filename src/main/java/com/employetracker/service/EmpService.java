@@ -1,5 +1,6 @@
 package com.employetracker.service;
 
+import com.employetracker.Expection.UserNotFoundException;
 import com.employetracker.modal.Employee;
 import com.employetracker.modal.ImageUpload;
 import org.springframework.core.io.Resource;
@@ -18,11 +19,11 @@ public interface EmpService {
 
    List<Employee> allEmployees();
    Employee addEmp(Employee employee);
-   Employee getBySapId(int id);
-   Employee updateEmp(Employee employee);
-   String deleteEmp(int sapId);
+   Employee getBySapId(int id) ;
+   Employee updateEmp(Employee employee) ;
+   String deleteEmp(int sapId) ;
    List<Employee> getByDesignation(String designation);
-   ImageUpload uploadImage(MultipartFile file, int empId);
+   ImageUpload uploadImage(MultipartFile file, int empId) ;
    Resource downloadImage(String fileName);
 
 }

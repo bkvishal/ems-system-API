@@ -1,5 +1,6 @@
 package com.employetracker.controller;
 
+import com.employetracker.Expection.UserNotFoundException;
 import com.employetracker.commonEntity.Response;
 import com.employetracker.modal.Employee;
 import com.employetracker.modal.ImageUpload;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class EmpController {
 
     @Autowired
     private EmpService empService;
+
 
     @GetMapping(value = "/getAll")
     public ResponseEntity<Response> getEmployee() {
