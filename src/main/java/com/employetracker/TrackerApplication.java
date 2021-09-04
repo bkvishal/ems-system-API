@@ -1,8 +1,10 @@
 package com.employetracker;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -13,6 +15,7 @@ public class TrackerApplication {
     public static void main(String[] args) {
         SpringApplication.run(TrackerApplication.class, args);
     }
+
 
     @Bean
     public CorsFilter corsFilter() {

@@ -1,12 +1,22 @@
 package com.employetracker.controller;
 
+import com.employetracker.Expection.UserNotFoundException;
 import com.employetracker.commonEntity.Response;
 import com.employetracker.modal.Employee;
+import com.employetracker.modal.ImageUpload;
 import com.employetracker.service.EmpService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,15 +26,16 @@ import java.util.List;
  * @Date : 22-08-2020
  **/
 
+@Slf4j
 @RestController
-@RequestMapping(name = "/empTracker")
 public class EmpController {
 
     @Autowired
     private EmpService empService;
 
+
     @GetMapping(value = "/getAll")
-    public ResponseEntity<Response> getEmployee(){
+    public ResponseEntity<Response> getEmployee() {
         List<Employee> empList = empService.allEmployees();
         Response rs = new Response();
 
@@ -60,7 +71,7 @@ public class EmpController {
     }
 
     @GetMapping(value = "/getByid/{SAP}")
-    public  ResponseEntity<Response> findEmpBySapId(@PathVariable("SAP") int sapId) {
+    public ResponseEntity<Response> findEmpBySapId(@PathVariable("SAP") int sapId) {
         Employee emp = empService.getBySapId(sapId);
         Response rs = new Response();
         if (emp != null) {
@@ -97,7 +108,7 @@ public class EmpController {
     public ResponseEntity<Response> deleteEmployee(@PathVariable("SAP") int sapId) {
         String result = empService.deleteEmp(sapId);
         Response rs = new Response();
-        if(result.equals("Success")) {
+        if (result.equals("Success")) {
             rs.setStatus(true);
             rs.setHttpCode("200");
             rs.setResult(Collections.singletonList("Successfully deleted!"));
@@ -126,6 +137,56 @@ public class EmpController {
             rs.setHttpCode("404");
             return new ResponseEntity<>(rs, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping(value = "/imageUpload/{empId}")
+    public ResponseEntity<Response> uploadEmpImage(@RequestParam("file") MultipartFile file, @PathVariable int empId) {
+
+        ImageUpload result = empService.uploadImage(file, empId);
+        Response rs = new Response();
+
+        if (result != null) {
+            rs.setHttpCode("200");
+            rs.setStatus(true);
+            rs.setResult(Collections.singletonList(result));
+            return new ResponseEntity<>(rs, HttpStatus.OK);
+        } else {
+            rs.setStatus(false);
+            rs.setError("Something went wrong! Image is not being uploaded");
+            rs.setHttpCode("404");
+            return new ResponseEntity<>(rs, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/downloadFile/{fileName}")
+    public ResponseEntity<Resource> downloadEmpImage(@PathVariable("fileName") String fileName, HttpServletRequest request) {
+
+        // Loading file as a resource
+        Resource resource = empService.downloadImage(fileName);
+
+        // checking the file content type
+        String contentType = null;
+
+        // when we want to render any file type then we user MimeType .. this include every content type rather then only image or pdf
+        try {
+            contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+
+        } catch (IOException io) {
+            log.error("Unable to find content type");
+            io.printStackTrace();
+        }
+
+        if (contentType ==null) {
+            contentType =MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                // ---- this attachment; filename will download the file when URL is hit
+                //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; fileName=" + resource.getFilename())
+                // this inline will render the image in the browser
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; fileName=" + resource.getFilename())
+                .body(resource);
     }
 
 }
