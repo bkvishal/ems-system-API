@@ -44,7 +44,7 @@ public class EmpServiceImpl implements EmpService {
 
     @Override
     public List<Employee> allEmployees() {
-        log.info("Trying to get all emp list");
+
         return empRepo.findAll();
     }
 
@@ -53,7 +53,6 @@ public class EmpServiceImpl implements EmpService {
 
         Employee emp = empRepo.save(employee);
 
-        log.info("adding emp is done right here in addEmp service method");
 
         return empRepo.save(emp);
     }
