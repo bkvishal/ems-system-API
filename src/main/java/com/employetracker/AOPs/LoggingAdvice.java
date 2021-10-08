@@ -33,14 +33,14 @@ public class LoggingAdvice {
 
 
     // pointcut is the place in which we declare a location we want to apply our advice -- here we are applying across the application
-    @Pointcut(value = "execution(* com.employetracker.*.*.*(..))")
-    public void myPointCut() {
+    @Pointcut(value = "execution(* com.employetracker.service.*.*(..))")
+    public void loggingPointCut() {
 
     }
 
 
     // around() advice is a combination of @before and @AfterReturning
-    @Around("myPointCut()")
+    @Around("loggingPointCut()")
     public Object loggingAdvice(ProceedingJoinPoint pjp) throws Throwable{
 
         // This is used to represent as a string of json.

@@ -34,6 +34,18 @@ public class EmpController {
     private EmpService empService;
 
 
+    @PostMapping(value = "/checking")
+    public String exceptionCheck(@ModelAttribute Employee employee) {
+       int i=10;
+
+       // using modelAttribute we are getting object values as parameters in the URL;
+        System.out.println(employee);
+
+       int j = i/0;
+
+        return "Success";
+    }
+
     @GetMapping(value = "/getAll")
     public ResponseEntity<Response> getEmployee() {
         List<Employee> empList = empService.allEmployees();
