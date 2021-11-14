@@ -2,7 +2,7 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/emp_tracker
-    username: vishal
+    username: root
     password: test
 
   jpa:

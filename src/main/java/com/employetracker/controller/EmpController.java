@@ -8,10 +8,7 @@ import com.employetracker.service.EmpService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,6 +41,13 @@ public class EmpController {
        int j = i/0;
 
         return "Success";
+    }
+
+    @RequestMapping(value = "/getHead", method = RequestMethod.OPTIONS)
+    public ResponseEntity<?> getHeader(){
+        return ResponseEntity.ok()
+                .allow(HttpMethod.GET, HttpMethod.POST, HttpMethod.PATCH)
+                .build();
     }
 
     @GetMapping(value = "/getAll")
