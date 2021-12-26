@@ -1,8 +1,8 @@
-# ems-system-API
-
 Project Name : **HorizonX**
 
 Welcome to the new way of managing things 
+
+These are the restful Apis for HorizonX (aka Employe Management System). 
 
 Just a small API for managing employee in a quick way.
 
