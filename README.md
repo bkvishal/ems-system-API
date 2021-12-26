@@ -1,6 +1,6 @@
 # ems-system-API
 
-Project Name : HorizonX
+Project Name : **HorizonX**
 
 Just a small API for managing employee in a quick way.
 
